@@ -1,1 +1,1 @@
-{"root":["./src/config.ts","./src/route.ts","./src/server.ts","./src/middleware/errormiddleware.ts","./src/utils/AsyncHanlder.ts","./src/utils/CustomError.ts","./src/utils/logger.ts"],"errors":true,"version":"6.0.2"}
+{"root":["./src/config.ts","./src/route.ts","./src/server.ts","./src/db/model.ts","./src/middleware/errormiddleware.ts","./src/middleware/loggermiddleware.ts","./src/utils/AsyncHanlder.ts","./src/utils/CustomError.ts","./src/utils/logger.ts"],"version":"6.0.2"}

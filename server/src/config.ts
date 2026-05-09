@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import logger from "./utils/logger"
 
 export const GEMINI_API_KEY = process.env.GEMINI_API_KEY
 
@@ -15,8 +16,8 @@ if(!MONGO_URL){
 export const main = async() => {
     try{
     await mongoose.connect(MONGO_URL)
-    .then(() => console.log("Database Live"))
+    .then(() => logger.info("Database Live"))
 }catch(err){
-        console.log("The Problem should be"+ err)
+        logger.warn("The Problem should be "+ err)
     }
 }

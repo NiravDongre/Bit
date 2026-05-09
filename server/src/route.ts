@@ -26,7 +26,7 @@ export const summary = AsyncHandler(async(req: Request, res: Response, next: Nex
 
     const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
-        contents: `Summerize this script: ${transcript}`
+        contents: `Summerize this script in English only English: ${transcript}`
     })
 
     if(!response){
