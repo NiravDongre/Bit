@@ -6,6 +6,8 @@ import { summary } from './route';
 import { errorMiddleware } from './middleware/errormiddleware';
 import { loggerMiddleware } from './middleware/loggermiddleware';
 import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import mongoSanitize from 'express-mongo-sanitize'
 import { main } from './config';
 import logger from './utils/logger';
 
@@ -13,11 +15,20 @@ import logger from './utils/logger';
 const app = express()
 const PORT = process.env.PORT || 3000
 app.use(express.json())
+app.use(mongoSanitize())
+
+const limit = rateLimit({
+    windowMs: 1 * 60 * 1000,
+    limit: 10,
+    standardHeaders: true,
+    legacyHeaders: false
+})
+
 app.use(helmet());
 
 app.use(loggerMiddleware)
 
-app.post("/transcript", summary);
+app.post("/transcript", limit,summary);
 
 app.use(errorMiddleware)
 
