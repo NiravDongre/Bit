@@ -2,7 +2,9 @@
 
 
 function App() {
-  return (<div>Hi there</div>)
+  return (
+  <div className="text-red-600">Hi there</div>
+)
 }
 
 export default App
