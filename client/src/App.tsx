@@ -1,9 +1,11 @@
-
+import Website from "./pages/OnePage"
 
 
 function App() {
   return (
-  <div className="text-red-600">Hi there</div>
+  <div className="font-mono">
+    <Website />
+  </div>
 )
 }
 
