@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
+import cors from 'cors'
 import { summary } from './route';
 import { errorMiddleware } from './middleware/errormiddleware';
 import { loggerMiddleware } from './middleware/loggermiddleware';
@@ -15,6 +16,7 @@ import logger from './utils/logger';
 const app = express()
 const PORT = process.env.PORT || 3000
 app.use(express.json())
+app.use(cors())
 app.use(mongoSanitize())
 
 const limit = rateLimit({
@@ -28,13 +30,13 @@ app.use(helmet());
 
 app.use(loggerMiddleware)
 
-app.post("/transcript", limit,summary);
+app.post("/transcript", limit ,summary);
 
 app.use(errorMiddleware)
 
 
 main().then(() => {
     app.listen(PORT, () => {
-        logger.info("The Server is live on Port" + PORT)
+        logger.info("The Server is live on Port " + PORT)
     })
 })
