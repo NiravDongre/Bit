@@ -10,7 +10,7 @@ export default function MainContext(){
 
     const [ Url, setUrl ] = useState()
     const [ Loading, setLoading ] = useState(false)
-    const [ Mere, setMere ] = useState("")
+    const [ Mere, setMere ] = useState([])
 
     const Handler = async () => {
 
@@ -22,7 +22,7 @@ export default function MainContext(){
             Input: Url
         })
 
-        setMere(response.data.data);
+        setMere(response.data.data.text);
 
         } catch(err){
             setLoading(false)
