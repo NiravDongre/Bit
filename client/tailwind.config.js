@@ -4,7 +4,11 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],  theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        pixel: ["Pixelify Sans", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 }
