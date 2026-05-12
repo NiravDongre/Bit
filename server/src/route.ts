@@ -22,25 +22,13 @@ export const summary = AsyncHandler(async(req: Request, res: Response, next: Nex
 
     const transcript = data.map((items) => items.text).join(" ")
 
-    const ai = new GoogleGenAI({apiKey: GEMINI_API_KEY})
-
-    const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: `Summerize this script in English only English: ${transcript}`
-    })
-
-    if(!response){
-        logger.warn("Ai failed or retry")
-        throw next(new CustomError(400, "didn't got response or the Ai failed at it"))
-    }
-
     const pack = await UrlPack.create({
         Input,
-        Summary: response.text
+        Summary: transcript
     })
 
     return res.status(201).json({
         status: "success",
-        data: pack.Summary
+        data: data
     })
 })
