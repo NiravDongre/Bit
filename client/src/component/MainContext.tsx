@@ -9,14 +9,24 @@ function Input({onChange}){
 export default function MainContext(){
 
     const [ Url, setUrl ] = useState()
-    const [ Mere, setMere ] = useState([])
+    const [ Loading, setLoading ] = useState(false)
+    const [ Mere, setMere ] = useState("")
 
     const Handler = async () => {
+
+        try{
+
+        setLoading(true)
+
         const response = await axios.post("http://localhost:3000/transcript",{
             Input: Url
         })
 
-        setMere(response.data.data)
+        setMere(response.data.data);
+
+        } catch(err){
+            setLoading(false)
+        }
     }
     
     return (
@@ -36,7 +46,7 @@ export default function MainContext(){
 
         <div className="grid grid-cols-2 p-6 mt-10">
             <div className="col-span-2 shadow-lg shadow-blue-400/50">
-              <p className="border border-blue p-7 rounded-xl relative">{Mere}</p>
+              <p className="border border-blue p-7 rounded-xl relative">{Mere} {Loading ? "Fetching Transcript" : "Generate Transcript"}</p>
             </div>
         </div>
 
