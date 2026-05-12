@@ -9,18 +9,18 @@ function Input({onChange}){
 export default function MainContext(){
 
     const [ Url, setUrl ] = useState()
+    const [ Mere, setMere ] = useState([])
 
-     const Handler = async () => {
+    const Handler = async () => {
         const response = await axios.post("http://localhost:3000/transcript",{
             Input: Url
         })
 
-        console.log(response.data)
+        setMere(response.data.data)
     }
-
-
     
     return (
+      <div>
         <div className="flex justify-center mt-16">
             <div>
              <h1 className="text-6xl font-bold p-7 text-red-900">Youtube to Transcript</h1>
@@ -32,8 +32,14 @@ export default function MainContext(){
                  <button onClick={Handler} type="submit" className="p-5 ml-10 text-xl border  transition delay-50 duration-300 hover:bg-blue-600 rounded-xl bg-transparent">Get it...{">-<"}</button>
                </div>
             </div>
-
-
         </div>
+
+        <div className="grid grid-cols-2 p-6 mt-10">
+            <div className="col-span-2 shadow-lg shadow-blue-400/50">
+              <p className="border border-blue p-7 rounded-xl relative">{Mere}</p>
+            </div>
+        </div>
+
+    </div>
     )
 }
