@@ -3,7 +3,7 @@ import { fetchTranscript } from 'youtube-transcript';
 import { GoogleGenAI } from '@google/genai';
 import { GEMINI_API_KEY } from '../config';
 import AsyncHandler from '../utils/AsyncHandler';
-import UrlPack from '../models/model';
+import UrlPack from '../models/transcript';
 import CustomError from '../utils/CustomError';
 import logger from '../utils/logger';
 
