@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { summary } from "./summary";
+import { Allfeatures } from "./features";
 import { Auth } from "./auth";
 
 export const Inputs = Router();
 
 
-Inputs.post("/transcript", Allfeatures);
+Inputs.post("/youtube-to-transcript", Allfeatures);
 Inputs.post("/auth", Auth)

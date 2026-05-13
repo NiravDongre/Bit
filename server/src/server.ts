@@ -3,7 +3,6 @@ dotenv.config();
 
 import express from 'express';
 import cors from 'cors'
-import { summary } from './routes/summary';
 import { errorMiddleware } from './middleware/errormiddleware';
 import { loggerMiddleware } from './middleware/loggermiddleware';
 import helmet from 'helmet';
