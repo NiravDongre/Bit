@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { Allfeatures } from "./features";
-import { Auth } from "./auth";
+import { Allfeatures } from "./features.route";
+import { Auth } from "./auth.route";
 
 export const Inputs = Router();
 

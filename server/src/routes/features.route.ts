@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { notes, summary, transcript } from "../controllers/features";
+import { notes, summary, transcript } from "../controllers/features.controller";
 
 export const Allfeatures = Router();
 
