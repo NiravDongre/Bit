@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { string } from "zod";
 const Schema = mongoose.Schema;
 
 const user = new Schema({
@@ -16,7 +17,13 @@ const user = new Schema({
     password: {
         required: true,
         type: String
+    },
+
+    refreshtoken: {
+        type: String,
+        default: null
     }
+
 }, {timestamps: true})
 
 const Usermodel = mongoose.model("user", user);

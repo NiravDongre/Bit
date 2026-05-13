@@ -59,6 +59,10 @@ export const Signup = AsyncHandler(async(req: Request, res: Response, next: Next
     }
 
     res.cookie("accesstoken", accesstoken, options)
+    res.cookie("refreshtoken", refreshtoken, options)
+
+    user.refreshtoken = refreshtoken;
+    await user.save();
 
     if(!user){
         return next(new CustomError(404, "Try Again"))
@@ -69,6 +73,8 @@ export const Signup = AsyncHandler(async(req: Request, res: Response, next: Next
         accesstoken,
         refreshtoken
     })
+
+
     } catch(err){
         logger.error("Invalid value entered ")
         return next(new CustomError(400, "Invalid error" + err))
