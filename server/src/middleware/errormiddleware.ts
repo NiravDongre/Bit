@@ -1,7 +1,7 @@
 
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 
-export const errorMiddleware = (err: any,req: Request, res: Response) => {
+export const errorMiddleware = (err: any, req: Request, res: Response, next: NextFunction) => {
     
     const statusCode: number = err.statusCode || 500;
     const Status: string = err.Status || "fail";

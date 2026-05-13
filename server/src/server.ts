@@ -32,6 +32,7 @@ app.use(loggerMiddleware)
 
 app.use("/api/v2", Inputs);
 
+
 app.use(errorMiddleware)
 
 
