@@ -41,6 +41,10 @@ export const Signup = AsyncHandler(async(req: Request, res: Response, next: Next
         password: hashpassword
     })
 
+    if(!user){
+        return next(new CustomError(404, "Try Again"))
+    }
+
     const accesstoken = jsonwebtoken.sign(
         {id: user._id},
         String(ACCESS_TOKEN),
@@ -64,14 +68,8 @@ export const Signup = AsyncHandler(async(req: Request, res: Response, next: Next
     user.refreshtoken = refreshtoken;
     await user.save();
 
-    if(!user){
-        return next(new CustomError(404, "Try Again"))
-    }
-
     return res.status(201).json({
-        message: "User Signed up",
-        accesstoken,
-        refreshtoken
+        message: "User Signed up"
     })
 
 
@@ -89,19 +87,45 @@ export const Signin = AsyncHandler(async(req: Request, res: Response, next: Next
 
     if(!createpayload.success){
         logger.warn("Invalid Inputs");
-        return next(new CustomError(400, 'Invalid Inputs'))
+        return next(new CustomError(400, `${createpayload.error.issues[0]?.message}`))
     }
     
     const protecteduser = createpayload.data;
 
-    const existeduser = await Usermodel.findOne({
-        username: protecteduser?.username
+    const user = await Usermodel.findOne({
+        username: protecteduser.username
     })
 
-    if(existeduser){
-        logger.info('User already exist')
-        return res.status(200).json("User already exist")
+    if(!user){
+        return next(new CustomError(404, "User not Found"))
     }
+
+    const accesstoken = jsonwebtoken.sign(
+        {id: user._id},
+        String(ACCESS_TOKEN),
+        {expiresIn: "15m"}
+    ) 
+
+    const refreshtoken = jsonwebtoken.sign(
+        {id: user._id},
+        String(REFRESH_TOKEN),
+        {expiresIn: "7d"}
+    )
+
+    const options = {
+        maxAge: 900000,
+        httpOnly: true
+    }
+
+    res.cookie("accesstoken", accesstoken, options)
+    res.cookie("refreshtoken", refreshtoken, options)
+
+    user.refreshtoken = refreshtoken;
+    await user.save();
+
+    return res.status(201).json({
+        message: "User Signed In"
+    })
 
 })
 
