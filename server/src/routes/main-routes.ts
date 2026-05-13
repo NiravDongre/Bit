@@ -5,5 +5,5 @@ import { Auth } from "./auth";
 export const Inputs = Router();
 
 
-Inputs.post("/transcript", summary);
+Inputs.post("/transcript", Allfeatures);
 Inputs.post("/auth", Auth)
