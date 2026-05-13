@@ -5,6 +5,7 @@ import express from 'express';
 import cors from 'cors'
 import { errorMiddleware } from './middleware/errormiddleware';
 import { loggerMiddleware } from './middleware/loggermiddleware';
+import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import mongoSanitize from 'express-mongo-sanitize'
@@ -29,7 +30,7 @@ const limit = rateLimit({
 app.use(helmet());
 
 app.use(loggerMiddleware)
-
+app.use(cookieParser());
 app.use("/api/v2", Inputs);
 
 
