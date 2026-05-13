@@ -11,6 +11,7 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from "../config";
 export const Signup = AsyncHandler(async(req: Request, res: Response, next: NextFunction) => {
 
     const payload = req.body;
+    
 
     const createpayload = SignupValidation.safeParse(payload);
 
@@ -40,28 +41,37 @@ export const Signup = AsyncHandler(async(req: Request, res: Response, next: Next
         password: hashpassword
     })
 
-    const accesstoken = jsonwebtoken.sign(user._id,
+    const accesstoken = jsonwebtoken.sign(
+        {id: user._id},
         String(ACCESS_TOKEN),
         {expiresIn: "15m"}
     ) 
 
-    const refreshtoken = jsonwebtoken.sign(user._id,
+    const refreshtoken = jsonwebtoken.sign(
+        {id: user._id},
         String(REFRESH_TOKEN),
-        {expiresIn: "15m"}
+        {expiresIn: "7d"}
     )
 
-    
+    const options = {
+        maxAge: 900000,
+        httpOnly: true
+    }
+
+    res.cookie("accesstoken", accesstoken, options)
 
     if(!user){
         return next(new CustomError(404, "Try Again"))
     }
 
     return res.status(201).json({
-        message: "User Signed up"
+        message: "User Signed up",
+        accesstoken,
+        refreshtoken
     })
     } catch(err){
-        logger.error("Invalid value entered " + err)
-        return next(new CustomError(400, "Invalid error"))
+        logger.error("Invalid value entered ")
+        return next(new CustomError(400, "Invalid error" + err))
     }
 })
 
@@ -73,7 +83,7 @@ export const Signin = AsyncHandler(async(req: Request, res: Response, next: Next
 
     if(!createpayload.success){
         logger.warn("Invalid Inputs");
-        return next(new CustomError(402, 'Invalid Inputs'))
+        return next(new CustomError(400, 'Invalid Inputs'))
     }
     
     const protecteduser = createpayload.data;
