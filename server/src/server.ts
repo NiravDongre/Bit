@@ -3,7 +3,7 @@ dotenv.config();
 
 import express from 'express';
 import cors from 'cors'
-import { summary } from './route';
+import { summary } from './routes/summary';
 import { errorMiddleware } from './middleware/errormiddleware';
 import { loggerMiddleware } from './middleware/loggermiddleware';
 import helmet from 'helmet';
@@ -11,6 +11,7 @@ import rateLimit from 'express-rate-limit';
 import mongoSanitize from 'express-mongo-sanitize'
 import { main } from './config';
 import logger from './utils/logger';
+import { Inputs } from './routes/main-routes';
 
 
 const app = express()
@@ -30,7 +31,7 @@ app.use(helmet());
 
 app.use(loggerMiddleware)
 
-app.post("/transcript", limit ,summary);
+app.use("/api/v2", Inputs);
 
 app.use(errorMiddleware)
 
