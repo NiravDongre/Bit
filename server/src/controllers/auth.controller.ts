@@ -131,7 +131,12 @@ export const Signin = AsyncHandler(async(req: Request, res: Response, next: Next
 
 export const Logout = AsyncHandler(async(req: Request, res: Response, next: NextFunction) => {
 
+    res.clearCookie("accesstoken");
+    res.clearCookie("refreshtoken");
 
+    return res.status(200).json({
+        message: "user has log-out"
+    })
 })
 
 
