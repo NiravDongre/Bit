@@ -3,11 +3,10 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom"
 
 
-export function SignUpPage() {
+export function SignInPage() {
 
     const navigate = useNavigate()
     const [ Username, setUsername ] = useState("")
-    const [ Email, setEmail ] = useState("")
     const [ Password, setPassword ] = useState("")
     
      
@@ -19,16 +18,10 @@ export function SignUpPage() {
 
             <h1 className="text-center font-mono text-3xl mb-5">Sign up</h1>
 
-
             <div className="grid rounded-xl bg-teal-50 p-10">
-                <div>
+                <div className="mb-4">
                 <p className="text-xl p-2 text-left">username :</p>
                 <input onChange={(e) => { setUsername(e.target.value) }} className="p-2 bg-transparent text-xl rounded-xl border border-yellow" type="text" placeholder="username" />
-                </div>
-
-                <div className="mt-4 mb-4">
-                    <p className="text-xl p-2 text-left">email :</p>
-                    <input onChange={(e) => { setEmail(e.target.value) }} className="p-2 bg-transparent text-xl rounded-xl border border-yellow" type="text" placeholder="email" />
                 </div>
 
                 <div>
@@ -37,9 +30,8 @@ export function SignUpPage() {
                 </div>
 
              <button type="submit" onClick={async() => {
-                const response = await axios.post("http://localhost:3000/api/v2/auth/sign-up", {
+                const response = await axios.post("http://localhost:3000/api/v2/auth/sign-in", {
                     username: Username,
-                    email: Email,
                     password: Password
                 })
 
@@ -48,7 +40,7 @@ export function SignUpPage() {
 
             </div>
 
-            <p className="text-center">Already signed up go here <a onClick={() => navigate("/auth/sign-in")} className="hover:underline">sign-in</a></p>
+            <p className="text-center">Didn't sign up go here <a onClick={() => navigate("/auth/sign-up")} className="hover:underline">sign-in</a></p>
             </div>
 
         </div>
