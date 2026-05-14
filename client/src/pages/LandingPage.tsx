@@ -3,7 +3,7 @@ import MainContext from "../component/MainContext";
 import { DetailedContext } from "../component/DetailedContext";
 import Footbar from "../component/Footbar"
 
-export default function Website(){
+export default function LandingPage(){
     return <div>
         <TopBar></TopBar>
         <MainContext></MainContext>
