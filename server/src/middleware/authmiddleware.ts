@@ -14,8 +14,6 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
         
         const token = req.cookies.accesstoken;
 
-        console.log(token);
-
         if(!token){
             logger.warn("Access Token required")
             return next(new CustomError(409, "Access Token required"))
