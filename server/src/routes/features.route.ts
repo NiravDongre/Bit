@@ -4,6 +4,6 @@ import { authMiddleware } from "../middleware/authmiddleware";
 
 export const Allfeatures = Router();
 
-Allfeatures.post("/transcript", authMiddleware ,transcript);
-Allfeatures.post("/summary", summary);
-Allfeatures.post("/notes", notes)
+Allfeatures.post("/transcript", transcript);
+Allfeatures.post("/summary", authMiddleware,summary);
+Allfeatures.post("/notes", authMiddleware ,notes)
