@@ -1,4 +1,4 @@
-import Website from "./pages/OnePage"
+import Website from "./pages/LandingPage"
 
 
 function App() {
