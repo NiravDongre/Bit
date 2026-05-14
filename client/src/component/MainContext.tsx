@@ -18,11 +18,11 @@ export default function MainContext(){
 
         setLoading(true)
 
-        const response = await axios.post("http://localhost:3000/transcript",{
+        const response = await axios.post("http://localhost:3000/api/v2/youtube-to-transcript/transcript",{
             Input: Url
         })
 
-        setMere(response.data.data.text);
+        setMere(response.data.data.Transcript);
 
         } catch(err){
             setLoading(false)

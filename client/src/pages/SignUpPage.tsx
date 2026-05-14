@@ -1,6 +1,8 @@
 import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import TopBar from "../component/Topbar"
+import Footbar from "../component/Footbar"
 
 
 export function SignUpPage() {
@@ -13,6 +15,8 @@ export function SignUpPage() {
      
     console.log(Username)
     return (
+        <>
+        <TopBar></TopBar>
         <div className="flex justify-center items-center h-screen p-16">
 
             <div className="">
@@ -52,5 +56,8 @@ export function SignUpPage() {
             </div>
 
         </div>
+
+        <Footbar></Footbar>
+        </>
     )
 }

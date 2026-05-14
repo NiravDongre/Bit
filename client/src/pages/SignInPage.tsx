@@ -1,6 +1,8 @@
 import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import TopBar from "../component/Topbar"
+import Footbar from "../component/Footbar"
 
 
 export function SignInPage() {
@@ -12,6 +14,8 @@ export function SignInPage() {
      
     console.log(Username)
     return (
+        <div>
+     <TopBar></TopBar>
         <div className="flex justify-center items-center h-screen p-16">
 
             <div className="">
@@ -35,14 +39,20 @@ export function SignInPage() {
                     password: Password
                 })
 
-                console.log(response)
+                if(response){
+                    <div>User has Signed In</div>
+                }
+            
+
              }} className="bg-black p-4 mt-4 rounded-xl text-xl">Sumbit</button>
 
             </div>
 
             <p className="text-center">Didn't sign up go here <a onClick={() => navigate("/auth/sign-up")} className="hover:underline">sign-in</a></p>
             </div>
-
+            
+            </div>
+        <Footbar></Footbar>
         </div>
     )
 }
