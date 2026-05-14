@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const pack = new Schema({
+const summary = new Schema({
     Input: {
         type: String, 
         default: "https://youtube-url",
@@ -9,10 +9,10 @@ const pack = new Schema({
     },
     Summary: {
         type: String,
-        required: true
+        default: null
     }
 }, { timestamps: true })
 
-const TranscriptPack = mongoose.model("pack", pack)
+const SummaryPack = mongoose.model("summary", summary)
 
-export default TranscriptPack
+export default SummaryPack

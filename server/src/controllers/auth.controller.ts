@@ -12,7 +12,6 @@ export const Signup = AsyncHandler(async(req: Request, res: Response, next: Next
 
     const payload = req.body;
     
-
     const createpayload = SignupValidation.safeParse(payload);
 
     if(!createpayload.success){
