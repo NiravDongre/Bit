@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
 import { fetchTranscript } from 'youtube-transcript';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GenerativeModel, GoogleGenerativeAI } from '@google/generative-ai';
 import { GEMINI_API_KEY } from '../config';
 import AsyncHandler from '../utils/AsyncHandler';
 import UrlPack from '../models/transcript.model';
@@ -8,10 +8,6 @@ import CustomError from '../utils/CustomError';
 import logger from '../utils/logger';
 import SummaryPack from '../models/summary.model';
 
-
-interface Nothing {
-    data: any
-}
 
 export const transcript = AsyncHandler(async(req: Request, res: Response, next: NextFunction) => {
 
@@ -51,6 +47,7 @@ export const summary = AsyncHandler(async(req: Request, res: Response, next: Nex
     }
 
     try{
+
     const data = await fetchTranscript(Input)
 
     const transcript = data.map((items) => items.text).join(" ")
@@ -82,14 +79,14 @@ export const summary = AsyncHandler(async(req: Request, res: Response, next: Nex
     `;
 
     const response = client.getGenerativeModel({
-      model: "gemini-2.5-flash",
-      contents: `${prompt}`
+      model: "gemini-2.5-flash"
     })
 
+    const result = await response.generateContent(prompt)
 
     const pack = await SummaryPack.create({
         Input,
-        Summary: 
+        Summary: result.response.text()
     })
 
     return res.status(201).json({
