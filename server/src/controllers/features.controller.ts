@@ -8,6 +8,7 @@ import CustomError from '../utils/CustomError';
 import logger from '../utils/logger';
 import SummaryPack from '../models/summary.model';
 import NotePack from '../models/note.model';
+import { Items } from 'openai/resources/conversations/items';
 
 
 export const transcript = AsyncHandler(async(req: Request, res: Response, next: NextFunction) => {
@@ -23,16 +24,29 @@ export const transcript = AsyncHandler(async(req: Request, res: Response, next: 
 
     const data = await fetchTranscript(Input)
 
-    const transcript = data.map((items) => items.text).join(" ")
+    type TranscriptItems  = {
+        text: string,
+        offset: number,
+        duration: number
+    }
+
+    const transcript = data.map((item) =>  ({
+        text: item.text,
+        start: Math.floor(item.offset/1000)
+    }))
+
+    console.log("This is the lamest shit i have gotten myself", transcript)
 
     const pack = await UrlPack.create({
         Input,
         Transcript: transcript
     })
 
+    const preciseData = pack.Transcript
+
     return res.status(201).json({
         status: "success",
-        data: pack
+        data: preciseData
     })
 })
 
@@ -53,7 +67,7 @@ export const summary = AsyncHandler(async(req: Request, res: Response, next: Nex
 
     const transcript = data.map((items) => items.text).join(" ");
 
-    await UrlPack.create({
+    await SummaryPack.create({
         Input,
         Transcript: transcript
     })
