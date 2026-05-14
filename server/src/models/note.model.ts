@@ -1,18 +1,18 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const pack = new Schema({
+const notes = new Schema({
     Input: {
         type: String, 
         default: "https://youtube-url",
         required: true,
     },
-    Transcript: {
+    Notes: {
         type: String,
-        required: true
+        default: null
     }
 }, { timestamps: true })
 
-const TranscriptPack = mongoose.model("pack", pack)
+const NotePack = mongoose.model("note", notes)
 
-export default TranscriptPack
+export default NotePack

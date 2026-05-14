@@ -1,12 +1,13 @@
 import { Response, Request, NextFunction } from 'express';
 import { fetchTranscript } from 'youtube-transcript';
-import { GenerativeModel, GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { GEMINI_API_KEY } from '../config';
 import AsyncHandler from '../utils/AsyncHandler';
 import UrlPack from '../models/transcript.model';
 import CustomError from '../utils/CustomError';
 import logger from '../utils/logger';
 import SummaryPack from '../models/summary.model';
+import NotePack from '../models/note.model';
 
 
 export const transcript = AsyncHandler(async(req: Request, res: Response, next: NextFunction) => {
@@ -26,7 +27,7 @@ export const transcript = AsyncHandler(async(req: Request, res: Response, next: 
 
     const pack = await UrlPack.create({
         Input,
-        Summary: transcript
+        Transcript: transcript
     })
 
     return res.status(201).json({
@@ -48,12 +49,17 @@ export const summary = AsyncHandler(async(req: Request, res: Response, next: Nex
 
     try{
 
-    const data = await fetchTranscript(Input)
+    const data = await fetchTranscript(Input);
 
-    const transcript = data.map((items) => items.text).join(" ")
+    const transcript = data.map((items) => items.text).join(" ");
 
-    const api_key_of_google = String(GEMINI_API_KEY)
-    const client = new GoogleGenerativeAI(api_key_of_google)
+    await UrlPack.create({
+        Input,
+        Transcript: transcript
+    })
+
+    const api_key_of_google = String(GEMINI_API_KEY);
+    const client = new GoogleGenerativeAI(api_key_of_google);
 
     const prompt = `
         You are an expert YouTube content summarizer.
@@ -98,7 +104,6 @@ export const summary = AsyncHandler(async(req: Request, res: Response, next: Nex
     logger.error("At Summary caught " + err)
     return next(new CustomError(429, `${err}`))
 }
-
 })
 
 export const notes = AsyncHandler(async(req: Request, res: Response, next: NextFunction) => {
@@ -116,13 +121,13 @@ export const notes = AsyncHandler(async(req: Request, res: Response, next: NextF
 
     const transcript = data.map((items) => items.text).join(" ")
 
-    const pack = await UrlPack.create({
+    const pack = await NotePack.create({
         Input,
-        Summary: transcript
+        Notes: transcript
     })
 
     return res.status(201).json({
         status: "success",
-        data: data
+        data: pack
     })
 })
