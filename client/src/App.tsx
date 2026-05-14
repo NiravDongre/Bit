@@ -2,6 +2,7 @@ import LandingPage from "./pages/LandingPage"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { SignUpPage } from "./pages/SignUpPage";
 import  { SignInPage } from "./pages/SignInPage"
+import { DashBoard } from "./pages/DashBoard";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Route index element={<LandingPage />}/>
       <Route path="/auth/sign-up" element={<SignUpPage/>}/>
       <Route path="/auth/sign-in" element={<SignInPage/>}/>
+      <Route path="/youtube-to-transcript" element={<DashBoard/>}/>
     </Routes>
     </BrowserRouter>
 )
