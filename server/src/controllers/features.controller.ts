@@ -10,11 +10,6 @@ import SummaryPack from '../models/summary.model';
 import NotePack from '../models/note.model';
 import { transcriptValication } from '../validations/url.validation';
 
-
-interface Input {
-    Input: string
-}
-
 export const transcript = AsyncHandler(async(req: Request, res: Response, next: NextFunction) => {
 
     const payload = req.body;
@@ -80,7 +75,7 @@ export const summary = AsyncHandler(async(req: Request, res: Response, next: Nex
 
     const transcript = data.map((items) => items.text).join(" ");
 
-    await SummaryPack.create({
+    const Transcript = await SummaryPack.create({
         Input,
         Transcript: transcript
     })
@@ -108,7 +103,7 @@ export const summary = AsyncHandler(async(req: Request, res: Response, next: Nex
         - Use simple language
         - Highlight anything surprising or useful
 
-        Transcript: ${transcript} 
+        Transcript: ${Transcript.Transcript} 
     `;
 
     const response = client.getGenerativeModel({

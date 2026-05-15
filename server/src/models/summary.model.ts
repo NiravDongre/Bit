@@ -12,8 +12,7 @@ const summary = new Schema({
         default: null
     },
     Transcript: {
-        type: String,
-        required: true
+        type: String
     }
 }, { timestamps: true })
 
