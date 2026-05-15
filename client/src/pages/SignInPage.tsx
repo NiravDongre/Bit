@@ -8,6 +8,7 @@ import Footbar from "../component/Footbar"
 export function SignInPage() {
 
     const navigate = useNavigate()
+    const [ error, setError ] = useState("")
     const [ Username, setUsername ] = useState("")
     const [ Password, setPassword ] = useState("")
     
@@ -34,14 +35,24 @@ export function SignInPage() {
                 </div>
 
              <button type="submit" onClick={async() => {
+
+                try{
+                    setError("")
+
+
                 const response = await axios.post("http://localhost:3000/api/v2/auth/sign-in", {
                     username: Username,
                     password: Password
-                })
-
-                if(response){
-                    <div>User has Signed In</div>
+                },{
+                    withCredentials: true
                 }
+            )
+                navigate("/youtube-to-transcript")
+        } catch(err){
+            if(err.response){
+                setError(err.response.data.message || "Something went wrong")
+            }
+        }
             
 
              }} className="bg-black p-4 mt-4 rounded-xl text-xl">Sumbit</button>

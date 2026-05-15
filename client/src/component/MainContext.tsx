@@ -30,7 +30,6 @@ export default function MainContext(){
         } catch(err){
             if(err.response){
             setError(err.response.data.message || "Something went wrong")
-
             }
         }
     }

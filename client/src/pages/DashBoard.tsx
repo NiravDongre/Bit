@@ -15,16 +15,19 @@ type Transcript = {
 export function DashBoard(){
 
     const [ Url, setUrl ] = useState()
-    const [ Mere, setMere ] = useState<Transcript[]>([])
+    const [ Mere, setMere ] = useState('')
 
     
     const Handler = async () => {
 
         const response = await axios.post("http://localhost:3000/api/v2/youtube-to-transcript/summary",{
             Input: Url
-        })
+        },{
+            withCredentials: true
+        }
+    )
 
-        setMere(response.data.data);
+        setMere(response.data.data.Summary);
     }
 
     return (
@@ -46,13 +49,8 @@ export function DashBoard(){
             <h1></h1>
         </div>
         <div className="flex justify-center mt-16 p-10">
-            <div className="grid border rounded-xl grid-cols-12 p-10 gap-4 w-full max-w-6xl">
-                {Mere.map((items: any) => (
-                    <div className="flex border col-span-12 p-5 rounded-xl gap-4" key={items._id}>
-                        <span>[ {items.start}s ]</span>
-                        <p>{items.text}</p>
-                    </div>
-                ))}
+            <div className=" border rounded-xl grid-cols-12 p-10 gap-4 w-full max-w-6xl">
+                {Mere}
             </div>
         </div>
         </>
