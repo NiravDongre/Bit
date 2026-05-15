@@ -8,11 +8,25 @@ import CustomError from '../utils/CustomError';
 import logger from '../utils/logger';
 import SummaryPack from '../models/summary.model';
 import NotePack from '../models/note.model';
+import { transcriptValication } from '../validations/url.validation';
 
+
+interface Input {
+    Input: string
+}
 
 export const transcript = AsyncHandler(async(req: Request, res: Response, next: NextFunction) => {
 
-    const Input: string = req.body.Input;
+    const payload = req.body;
+
+    const createpayload = transcriptValication.safeParse(payload)
+
+    if(!createpayload.success){
+        logger.info("Url is not Valid")
+        return next(new CustomError(400, `${createpayload.error.issues[0]?.message}`))
+    }
+
+    const Input = createpayload.data.Input
 
     logger.info("Attempting to Parse Url")
 
