@@ -9,10 +9,12 @@ const summary = new Schema({
     },
     Summary: {
         type: String,
-        default: null
+        default: null,
+        required: true
     },
     Transcript: {
-        type: String
+        type: String,
+        required: true
     }
 }, { timestamps: true })
 

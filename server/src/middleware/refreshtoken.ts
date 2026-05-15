@@ -48,7 +48,7 @@ export const refreshtoken = async(req:Request, res: Response, next:NextFunction)
     await matchedtoken.save();
 
     return res.status(200).json({
-        message: "The refresh token gotten"
+        message: "The refresh token successfully"
     })
     }
 

@@ -75,11 +75,6 @@ export const summary = AsyncHandler(async(req: Request, res: Response, next: Nex
 
     const transcript = data.map((items) => items.text).join(" ");
 
-    const Transcript = await SummaryPack.create({
-        Input,
-        Transcript: transcript
-    })
-
     const api_key_of_google = String(GEMINI_API_KEY);
     const client = new GoogleGenerativeAI(api_key_of_google);
 
@@ -103,7 +98,7 @@ export const summary = AsyncHandler(async(req: Request, res: Response, next: Nex
         - Use simple language
         - Highlight anything surprising or useful
 
-        Transcript: ${Transcript.Transcript} 
+        Transcript: ${transcript} 
     `;
 
     const response = client.getGenerativeModel({
@@ -114,7 +109,8 @@ export const summary = AsyncHandler(async(req: Request, res: Response, next: Nex
 
     const pack = await SummaryPack.create({
         Input,
-        Summary: result.response.text()
+        Summary: result.response.text(),
+        Transcript: transcript
     })
 
     return res.status(201).json({
