@@ -8,7 +8,6 @@ import CustomError from '../utils/CustomError';
 import logger from '../utils/logger';
 import SummaryPack from '../models/summary.model';
 import NotePack from '../models/note.model';
-import { Items } from 'openai/resources/conversations/items';
 
 
 export const transcript = AsyncHandler(async(req: Request, res: Response, next: NextFunction) => {
