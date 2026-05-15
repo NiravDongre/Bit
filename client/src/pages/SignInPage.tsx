@@ -20,7 +20,7 @@ export function SignInPage() {
 
             <div className="">
 
-            <h1 className="text-center font-mono text-3xl mb-5">Sign up</h1>
+            <h1 className="text-center font-mono text-3xl mb-5">Sign In</h1>
 
             <div className="grid rounded-xl bg-teal-50 p-10">
                 <div className="mb-4">
@@ -48,7 +48,7 @@ export function SignInPage() {
 
             </div>
 
-            <p className="text-center">Didn't sign up go here <a onClick={() => navigate("/auth/sign-up")} className="hover:underline">sign-in</a></p>
+            <p className="text-center">Didn't sign up go here <a onClick={() => navigate("/auth/sign-up")} className="hover:underline">sign-up</a></p>
             </div>
             
             </div>

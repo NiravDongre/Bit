@@ -18,7 +18,7 @@ export default function TopBar(){
 
             <div className="flex">
                 <a href="https://github.com/NiravDongre/Bit" ><TopBarButton className={"p-4"} Bname={"Github"}></TopBarButton></a>
-                <TopBarButton className={"p-4"} Bname={"Features"}></TopBarButton>
+                <a href="http://localhost:5173/auth/sign-in"><TopBarButton className={"p-4"} Bname={"Features"}></TopBarButton></a>
                 <a href="http://localhost:5173/"><TopBarButton className={"p-4"} Bname={"About"}></TopBarButton></a>
                 <div className="bg-pink-600 transition delay-150 hover:bg-black  flex ">
                 <button onClick={() => {
