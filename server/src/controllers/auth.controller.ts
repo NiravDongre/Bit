@@ -138,4 +138,21 @@ export const Logout = AsyncHandler(async(req: Request, res: Response, next: Next
     })
 })
 
+interface JwtPayload {
+    id: string
+}
+
+export const me = async(req: Request, res: Response, next: NextFunction) => {
+
+    const token = req.cookies.accesstoken;
+
+    console.log(token);
+
+    const decode  = jsonwebtoken.verify(token, String(ACCESS_TOKEN)) as JwtPayload
+
+    res.json({
+        data: decode.id
+    })
+}
+
 
