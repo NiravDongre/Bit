@@ -10,6 +10,7 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from "../config";
 
 export const Signup = AsyncHandler(async(req: Request, res: Response, next: NextFunction) => {
 
+    console.log(process.env.ACCESS_TOKEN)
     const payload = req.body;
     
     const createpayload = SignupValidation.safeParse(payload);
@@ -58,8 +59,9 @@ export const Signup = AsyncHandler(async(req: Request, res: Response, next: Next
 
     const options = {
         maxAge: 900000,
-        httpOnly: true
-    }
+        httpOnly: true,
+        secure: true,
+        }
 
     res.cookie("accesstoken", accesstoken, options)
     res.cookie("refreshtoken", refreshtoken, options)
@@ -113,7 +115,8 @@ export const Signin = AsyncHandler(async(req: Request, res: Response, next: Next
 
     const options = {
         maxAge: 900000,
-        httpOnly: true
+        httpOnly: true,
+        secure: true,
     }
 
     res.cookie("accesstoken", accesstoken, options)
@@ -145,8 +148,6 @@ interface JwtPayload {
 export const me = async(req: Request, res: Response, next: NextFunction) => {
 
     const token = req.cookies.accesstoken;
-
-    console.log(token);
 
     const decode  = jsonwebtoken.verify(token, String(ACCESS_TOKEN)) as JwtPayload
 
