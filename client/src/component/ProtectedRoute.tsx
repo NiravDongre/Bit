@@ -23,7 +23,7 @@ export default function ProtectedRoute({
     const checkUser = async () => {
       try {
          await axios.get(
-          "http://localhost:3000/me",
+          "http://localhost:3000/api/v2/me",
           {
             withCredentials: true,
           }
