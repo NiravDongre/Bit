@@ -1,8 +1,10 @@
 import LandingPage from "./pages/LandingPage"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { SignUpPage } from "./pages/SignUpPage";
 import  { SignInPage } from "./pages/SignInPage"
 import { DashBoard } from "./pages/DashBoard";
+import { ProtectedRoute } from "./component/ProtectedRoute";
+
 
 function App() {
   return (

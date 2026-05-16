@@ -6,11 +6,6 @@ function Input({onChange}){
     return <input onChange={onChange} className="bg-green-500  border-[3px] border-white w-full pl-5 p-4 text-xl rounded-none font-mono tracking-wider shadow-[4px_4px_0px_white]" type="text" placeholder="Youtube URL"/>
 }
 
-type Transcript = {
-    _id: string,
-    text: string,
-    start: number
-}
 
 export function DashBoard(){
 
