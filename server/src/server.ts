@@ -17,7 +17,7 @@ import { Inputs } from './routes/main-routes';
 const app = express()
 const PORT = process.env.PORT || 3000
 app.use(express.json())
-app.use(cors({ origin: "http://localhost:5173", credentials: true }))
+app.use(cors({ origin: "http://localhost:5174", credentials: true }))
 app.use(mongoSanitize())
 
 const limit = rateLimit({
@@ -36,7 +36,6 @@ app.use("/api/v2", Inputs);
 
 app.use(errorMiddleware)
 
-console.log(process.env.ACCESS_TOKEN)
 main().then(() => {
     app.listen(PORT, () => {
         logger.info("The Server is live on Port " + PORT)
