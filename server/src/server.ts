@@ -36,7 +36,7 @@ app.use("/api/v2", Inputs);
 
 app.use(errorMiddleware)
 
-
+console.log(process.env.ACCESS_TOKEN)
 main().then(() => {
     app.listen(PORT, () => {
         logger.info("The Server is live on Port " + PORT)

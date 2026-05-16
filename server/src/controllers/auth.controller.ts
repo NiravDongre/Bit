@@ -10,7 +10,6 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from "../config";
 
 export const Signup = AsyncHandler(async(req: Request, res: Response, next: NextFunction) => {
 
-    console.log(process.env.ACCESS_TOKEN)
     const payload = req.body;
     
     const createpayload = SignupValidation.safeParse(payload);
