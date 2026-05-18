@@ -12,7 +12,6 @@ import logger from '../utils/logger';
 import SummaryPack from '../models/summary.model';
 import NotePack from '../models/note.model';
 import { transcriptValication } from '../validations/url.validation';
-import path from 'path';
 
 export const transcript = AsyncHandler(async(req: Request, res: Response, next: NextFunction) => {
 
@@ -35,68 +34,28 @@ export const transcript = AsyncHandler(async(req: Request, res: Response, next: 
     }
 
         try{
-
-  // Create temp directory if it doesn't exist
-  const tempDir = path.join(process.cwd(), "temp")
-
-  fs.mkdirSync(tempDir, {
-    recursive: true,
-  })
-
-  // Unique filename
-
-  const filePath = path.join(tempDir, `${Date.now()}.webm`)
-
-  // Initialize ytdl
-  const ytdl = new YtdlCore({
-    hl: "en",
-    gl: "US",
-    clients: ["web"],
-  })
-
-  // Download audio stream
-  const webStream = await ytdl.download(Input, {
-    filter: "audioonly",
-    quality: "highestaudio",
-  })
-
-  // Convert Web Stream -> Node Stream
-  const nodeStream = Readable.fromWeb(webStream as any)
-
-  // Create writable stream
-  const writeStream = fs.createWriteStream(filePath)
-
-  // Pipe audio into file
-  nodeStream.pipe(writeStream)
-
-  // Wait until file finishes writing
-  await new Promise<void>((resolve, reject) => {
-    writeStream.on("finish", () => {
-      console.log("Download completed")
-      console.log("Saved at:", filePath)
-
-      resolve()
+    const ytdl = new YtdlCore({
+        hl: 'en',
+        gl: 'US',
+    })
+    const stream = await ytdl.download(Input,{
+        filter: 'audioonly',
+        quality: 'highestaudio'
     })
 
-    writeStream.on("error", (err) => {
-      reject(err)
-    })
+    const nodeStream = Readable.fromWeb(stream as any)
 
-    nodeStream.on("error", (err) => {
-      reject(err)
-    })
-  })
+    const thisStream = nodeStream.pipe(fs.createWriteStream("audio.webm"))
 
-  return res.status(201).json({
-    status: "success",
-    message: "Transcript downloaded successfully",
-    filePath: filePath
-  })
+    console.log(thisStream)
 
-}catch(err){
-    logger.error("At Transcript caught " + err)
-    return next(new CustomError(429, `${err}`))
+    }catch(err){
+    console.error(err) 
     }
+
+    res.json({
+        message: "Every thing is good here"
+    })
 })
 
 export const summary = AsyncHandler(async(req: Request, res: Response, next: NextFunction) => {
