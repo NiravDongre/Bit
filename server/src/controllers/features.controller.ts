@@ -1,4 +1,7 @@
 import { Response, Request, NextFunction } from 'express';
+import fs from 'fs';
+import { Readable } from 'stream';
+import { YtdlCore, toPipeableStream } from '@ybd-project/ytdl-core';
 import { fetchTranscript } from 'youtube-transcript';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { GEMINI_API_KEY } from '../config';
@@ -9,6 +12,7 @@ import logger from '../utils/logger';
 import SummaryPack from '../models/summary.model';
 import NotePack from '../models/note.model';
 import { transcriptValication } from '../validations/url.validation';
+import path from 'path';
 
 export const transcript = AsyncHandler(async(req: Request, res: Response, next: NextFunction) => {
 
@@ -30,32 +34,69 @@ export const transcript = AsyncHandler(async(req: Request, res: Response, next: 
         throw next(new CustomError(404, "Youtube url required"))
     }
 
-    const data = await fetchTranscript(Input)
+        try{
 
-    type TranscriptItems  = {
-        text: string,
-        offset: number,
-        duration: number
+  // Create temp directory if it doesn't exist
+  const tempDir = path.join(process.cwd(), "temp")
+
+  fs.mkdirSync(tempDir, {
+    recursive: true,
+  })
+
+  // Unique filename
+
+  const filePath = path.join(tempDir, `${Date.now()}.webm`)
+
+  // Initialize ytdl
+  const ytdl = new YtdlCore({
+    hl: "en",
+    gl: "US",
+    clients: ["web"],
+  })
+
+  // Download audio stream
+  const webStream = await ytdl.download(Input, {
+    filter: "audioonly",
+    quality: "highestaudio",
+  })
+
+  // Convert Web Stream -> Node Stream
+  const nodeStream = Readable.fromWeb(webStream as any)
+
+  // Create writable stream
+  const writeStream = fs.createWriteStream(filePath)
+
+  // Pipe audio into file
+  nodeStream.pipe(writeStream)
+
+  // Wait until file finishes writing
+  await new Promise<void>((resolve, reject) => {
+    writeStream.on("finish", () => {
+      console.log("Download completed")
+      console.log("Saved at:", filePath)
+
+      resolve()
+    })
+
+    writeStream.on("error", (err) => {
+      reject(err)
+    })
+
+    nodeStream.on("error", (err) => {
+      reject(err)
+    })
+  })
+
+  return res.status(201).json({
+    status: "success",
+    message: "Transcript downloaded successfully",
+    filePath: filePath
+  })
+
+}catch(err){
+    logger.error("At Transcript caught " + err)
+    return next(new CustomError(429, `${err}`))
     }
-
-    const transcript = data.map((item) =>  ({
-        text: item.text,
-        start: Math.floor(item.offset/1000)
-    }))
-
-    console.log("This is the lamest shit i have gotten myself", transcript)
-
-    const pack = await UrlPack.create({
-        Input,
-        Transcript: transcript
-    })
-
-    const preciseData = pack.Transcript
-
-    return res.status(201).json({
-        status: "success",
-        data: preciseData
-    })
 })
 
 export const summary = AsyncHandler(async(req: Request, res: Response, next: NextFunction) => {
