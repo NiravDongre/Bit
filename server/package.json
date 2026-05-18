@@ -15,6 +15,7 @@
   "dependencies": {
     "@google/genai": "^2.0.1",
     "@google/generative-ai": "^0.24.1",
+    "@ybd-project/ytdl-core": "^6.0.8",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
